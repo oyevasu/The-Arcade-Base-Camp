@@ -1,0 +1,21 @@
+export ALLOYDB=
+echo $ALLOYDB  > alloydbip.txt 
+psql -h $ALLOYDB -U postgres
+\c postgres
+CREATE EXTENSION IF NOT EXISTS PGAUDIT;
+select extname, extversion from pg_extension where extname = 'pgaudit';
+
+
+create cloud shell:
+export REGION=
+gcloud alloydb instances create lab-instance-rp1 \
+  --cluster=lab-cluster \
+  --region=$REGION \
+  --instance-type=READ_POOL \
+  --cpu-count=2 \
+  --read-pool-node-count=2
+
+
+create another cloud shell: 
+export REGION=
+gcloud beta alloydb backups create lab-backup --region=$REGION  --cluster=lab-cluster
